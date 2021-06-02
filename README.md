@@ -2,8 +2,14 @@
 
 This repository contains all the code and results for the NeurIPS 2021 submission _**Which derivative for ReLU at 0? The role of numerical precision**_.
 
+
+All the data generated from the experiments are located in [paper_results](paper_results).  
+All the figures from the paper are generated with this [notebook](paper_results/mkPlots.ipynb).
+
+Code for all the experiments: 
+
 * Introduction experiment: 
-    * [code](paper_results/section_3/mkPlot.R) 
+    * [code](introduction_experiment/expeSurprise.ipynb) 
 * Section 3 experiments: 
     * [Notebook1](notebooks/MNIST_volume_estimation.ipynb)
     * [Notebook2](notebooks/volume_estimation_by_architecture.ipynb)
