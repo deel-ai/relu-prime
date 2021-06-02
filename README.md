@@ -4,15 +4,15 @@ This repository contains all the code and results for the NeurIPS 2021 submissio
 
 
 All the data generated from the experiments are located in [paper_results](paper_results).  
-All the figures from the paper are generated with this [notebook](paper_results/mkPlots.ipynb).
+All the figures from the paper are generated with this [notebook](paper_results/mkPlots.ipynb), this [notebook](introduction_experiment/expeSurprise.ipynb) and this [script](paper_results/section_3/mkPlot.R).
 
 Code for all the experiments: 
 
 * Introduction experiment: 
     * [code](introduction_experiment/expeSurprise.ipynb) 
 * Section 3 experiments: 
-    * [Notebook1](notebooks/MNIST_volume_estimation.ipynb)
-    * [Notebook2](notebooks/volume_estimation_by_architecture.ipynb)
+    * [notebook1](notebooks/MNIST_volume_estimation.ipynb)
+    * [notebook2](notebooks/volume_estimation_by_architecture.ipynb)
     * [results](paper_results/section_3)
 
 * Section 4.3 experiments: 
