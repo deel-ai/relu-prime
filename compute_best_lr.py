@@ -121,7 +121,7 @@ if __name__ == "__main__":
     if not os.path.exists(outdir):
         os.makedirs(outdir, exist_ok=True)
 
-    file_name = f"best_lr_tmp.csv"
+    file_name = f"best_lr.csv"
     print(f"OUTDIR: {outdir}")
     print(f"File: {file_name}")
 
