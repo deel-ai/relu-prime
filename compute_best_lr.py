@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 from vgg import VGG
 from resnet import resnet18
-from my_relu import ReLUAlpha
+from relu import ReLUAlpha
 from data_utils import *
 from train import train, test
 import optuna

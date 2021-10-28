@@ -20,7 +20,7 @@ import torchvision.models as models
 from torch.utils.tensorboard import SummaryWriter
 
 from resnet import resnet50
-from my_relu import ReLUAlpha
+from relu import ReLUAlpha
 
 model_names = sorted(
     name

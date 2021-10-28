@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
-from my_relu import ReLUAlpha
+from relu import ReLUAlpha
 from tqdm import tqdm
 import pandas as pd
 from data_utils import get_mnist_loaders
