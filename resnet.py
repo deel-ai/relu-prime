@@ -42,7 +42,7 @@ class BasicBlock(nn.Module):
         base_width=64,
         dilation=1,
         norm_layer=None,
-        relu_fn=nn.ReLU
+        relu_fn=nn.ReLU,
     ):
         super(BasicBlock, self).__init__()
         if norm_layer is None:
@@ -92,7 +92,7 @@ class Bottleneck(nn.Module):
         base_width=64,
         dilation=1,
         norm_layer=None,
-        relu_fn=nn.ReLU
+        relu_fn=nn.ReLU,
     ):
         super(Bottleneck, self).__init__()
         if norm_layer is None:
@@ -143,7 +143,8 @@ class ResNet(nn.Module):
         width_per_group=64,
         replace_stride_with_dilation=None,
         norm_layer=None,
-        relu_fn=nn.ReLU
+        relu_fn=nn.ReLU,
+        imagenet=False,
     ):
         super(ResNet, self).__init__()
         if norm_layer is None:
@@ -165,11 +166,16 @@ class ResNet(nn.Module):
         self.groups = groups
         self.base_width = width_per_group
 
-        # CIFAR10: kernel_size 7 -> 3, stride 2 -> 1, padding 3->1
-        self.conv1 = nn.Conv2d(
-            3, self.inplanes, kernel_size=3, stride=1, padding=1, bias=False
-        )
-        # END
+        if imagenet:
+            # Imagenet:
+            self.conv1 = nn.Conv2d(
+                3, self.inplanes, kernel_size=7, stride=2, padding=3, bias=False
+            )
+        else:
+            # CIFAR10: kernel_size 7 -> 3, stride 2 -> 1, padding 3->1
+            self.conv1 = nn.Conv2d(
+                3, self.inplanes, kernel_size=3, stride=1, padding=1, bias=False
+            )
 
         self.bn1 = norm_layer(self.inplanes)
         self.relu = relu_fn()
@@ -228,7 +234,7 @@ class ResNet(nn.Module):
                 self.base_width,
                 previous_dilation,
                 norm_layer,
-                self.relu_fn
+                self.relu_fn,
             )
         )
         self.inplanes = planes * block.expansion
@@ -241,7 +247,7 @@ class ResNet(nn.Module):
                     base_width=self.base_width,
                     dilation=self.dilation,
                     norm_layer=norm_layer,
-                    relu_fn=self.relu_fn
+                    relu_fn=self.relu_fn,
                 )
             )
 
