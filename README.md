@@ -16,19 +16,17 @@ Code for all the experiments:
     * [results](paper_results/section_3)
 
 * Section 4.3 experiments: 
-    - To run the SGD experiment: 
+ - To run the experiments from section 4.3: 
     ```console
-    pyton train.py --network vgg11 --optimizer sgd --epochs 200 --batch_norm [BATCH_NORM]
+    pyton train_with_best_lr.py --network [NETWORK] --dataset[DATASET] --batch_norm [BATCH_NORM] --epochs [EPOCHS] 
     ```
-    with ```[BATCH_NORM]``` = True or False
-    - To run the Adam experiment: 
+    with ```[NETWORK]``` = mnist, vgg11 or resnet18 , ```[DATASET]``` = mnist, cifar10 or svhn and ```[BATCH_NORM]``` = True or False
+
+
+    Example: 
     ```console
-    pyton train.py --network vgg11 --optimizer adam --epochs 200 --batch_norm [BATCH_NORM]
+    python train_with_best_lr.py --network resnet18 --dataset cifar10 --batch_norm True --epochs 200 
     ```
-    with ```[BATCH_NORM]``` = True or False
-    * results: 
-        - [SGD](paper_results/section_4/cifar10/vgg11/vgg11_cifar10_sgd.csv)
-        - [Adam](paper_results/section_4/cifar10/vgg11/vgg11_cifar10_adam.csv)
 
     * Section 4.4 experiments: 
         * Notebooks:
@@ -42,9 +40,14 @@ Code for all the experiments:
 * Additional experiments:  
     To run the additional experiments:
     ```console
-    python train.py --network [NETWORK] --dataset[DATASET] --batch_norm [BATCH_NORM] --epochs 200
+    python train_with_best_lr.py --network [NETWORK] --dataset[DATASET] --batch_norm [BATCH_NORM] --epochs 200
     ```
-    with ```[NETWORK]``` = vgg11 or resnet18 , ```[DATASET]``` = cifar10 or svhn and ```[BATCH_NORM]``` = True or False
+    
+
+    To run the imagenet experiment:
+    ```console
+    python train_imagenet.py --dist-url 'tcp://127.0.0.1:9002' --dist-backend 'nccl' --relu [ALPHA] --multiprocessing-distributed --world-size 1 --rank 0 '{[IMAGENET_FOLDER_PATH]}'
+    ```
 
 The code used to generate the figures is available [here](paper_results/mkPlots.ipynb)
         
