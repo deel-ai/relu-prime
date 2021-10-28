@@ -52,13 +52,13 @@ def init(alpha=0, regularization="relu"):
             nn.Flatten(),
             nn.Linear(28 * 28, 2048),
             ReLUAlpha(alpha),
-            nn.Dropout(args["dropout_rate"]),
+            nn.Dropout(alpha),
             nn.Linear(2048, 2048),
             ReLUAlpha(alpha),
-            nn.Dropout(args["dropout_rate"]),
+            nn.Dropout(alpha),
             nn.Linear(2048, 2048),
             ReLUAlpha(alpha),
-            nn.Dropout(args["dropout_rate"]),
+            nn.Dropout(alpha),
             nn.Linear(2048, 10),
         ).to(device)
 
@@ -69,9 +69,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Pytorch relu experiment impact of different values for ReLU'(0)"
     )
-    parser.add_argument("--relu", type=float, default="0")
+    parser.add_argument("--alpha", type=float, default="0")
     parser.add_argument("--epochs", type=int, default=3, help="nb epochs")
-    parser.add_argument("--regularization", type=str, default="relu")
+    parser.add_argument("--regularization", type=str, default="batch_norm")
     parser.add_argument(
         "--nb_experiment",
         type=int,
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
 
     outdir = f"./results/mnist_sgd"
-    alpha = args["relu"]
+    alpha = args["alpha"]
     regularization = args["regularization"]
 
     if not os.path.exists(outdir):
@@ -143,7 +143,7 @@ if __name__ == "__main__":
                     "train_loss": train_loss,
                     "test_accuracy": test_acc,
                     "train_accuracy": train_acc,
-                    "relu": args["relu"],
+                    "relu": alpha,
                 },
                 ignore_index=True,
             )

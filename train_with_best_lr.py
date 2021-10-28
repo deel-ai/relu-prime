@@ -10,7 +10,7 @@ import pandas as pd
 from resnet import resnet18
 from vgg import VGG
 from my_relu import ReLUAlpha
-from data_utils import get_cifar10_loaders, get_svhn_loaders
+from data_utils import get_cifar10_loaders, get_svhn_loaders, get_mnist_loaders
 from train import train, test
 
 
@@ -20,20 +20,41 @@ def boolean_string(s):
     return s == "True"
 
 
-def init(network="vgg11", batch_norm=False, relu=0, optimizer="sgd", lr=0.01):
+def init(network="vgg11", batch_norm=False, alpha=0, optimizer="sgd", lr=0.01):
     if network == "vgg11":
-        net = VGG("VGG11", batch_norm=batch_norm, relu_fn=lambda: ReLUAlpha(relu)).to(
+        net = VGG("VGG11", batch_norm=batch_norm, relu_fn=lambda: ReLUAlpha(alpha)).to(
             device
         )
     elif network == "resnet18":
         if batch_norm:
             net = resnet18(
-                norm_layer=nn.BatchNorm2d, relu_fn=lambda: ReLUAlpha(relu)
+                norm_layer=nn.BatchNorm2d, relu_fn=lambda: ReLUAlpha(alpha)
             ).to(device)
         else:
-            net = resnet18(norm_layer=nn.Identity, relu_fn=lambda: ReLUAlpha(relu)).to(
+            net = resnet18(norm_layer=nn.Identity, relu_fn=lambda: ReLUAlpha(alpha)).to(
                 device
             )
+    elif network == "mnist":
+        if batch_norm:
+            norm_layer = lambda: nn.BatchNorm1d(2048)
+
+        else:
+            norm_layer = lambda: nn.Identity
+
+        net = torch.torch.nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(28 * 28, 2048),
+            norm_layer(),
+            ReLUAlpha(alpha),
+            nn.Linear(2048, 2048),
+            norm_layer(),
+            ReLUAlpha(alpha),
+            nn.Linear(2048, 2048),
+            norm_layer(),
+            ReLUAlpha(alpha),
+            nn.Linear(2048, 10),
+        ).to(device)
+
     if optimizer == "sgd":
         opt = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
     elif optimizer == "adam":
@@ -53,8 +74,8 @@ if __name__ == "__main__":
         help="number of experiment independant run for each configuration",
     )
     parser.add_argument("--batch_norm", type=boolean_string, default="True")
-    parser.add_argument("--network", type=str, default="resnet18")
-    parser.add_argument("--dataset", type=str, default="cifar10")
+    parser.add_argument("--network", type=str, default="mnist")
+    parser.add_argument("--dataset", type=str, default="mnist")
     parser.add_argument("--optimizer", type=str, default="sgd")
 
     args = vars(parser.parse_args())
@@ -83,6 +104,8 @@ if __name__ == "__main__":
         trainloader, testloader = get_cifar10_loaders()
     elif dataset == "svhn":
         trainloader, testloader = get_svhn_loaders()
+    elif dataset == "mnist":
+        trainloader, testloader = get_mnist_loaders()
 
     best_lrs = pd.read_csv(
         f"results/best_learning_rates/{dataset}//{network}/batch_norm_{batch_norm}/{optimizer}/best_lr.csv"
@@ -125,4 +148,4 @@ if __name__ == "__main__":
                 )
 
     path = os.path.join(outdir, file_name)
-    # results_df.to_pickle(path)
+    results_df.to_pickle(path)
