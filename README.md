@@ -1,6 +1,6 @@
-# Which derivative for ReLU at 0? The role of numerical precision.
+# Numerical influence of ReLU’(0) on backpropagation.
 
-This repository contains all the code and results for the NeurIPS 2021 submission _**Which derivative for ReLU at 0? The role of numerical precision**_.
+This repository contains all the code and results for the NeurIPS 2021 submission _**Numerical influence of ReLU’(0) on backpropagation**_.
 
 
 All the data generated from the experiments are located in [paper_results](paper_results).  
